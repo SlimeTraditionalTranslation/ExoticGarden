@@ -245,7 +245,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		new ItemStack[] {getItem("GRAPE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
 		.register(this);
 
-		new Juice(drinksCategory, new SlimefunItemStack("LEMON_ICED_TEA", new CustomPotion("&eLemon Iced Tea", Color.YELLOW, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&oRestores &b&o" + "6.5" + " &7&oHunger")), RecipeType.ENHANCED_CRAFTING_TABLE,
+		new Juice(drinksCategory, new SlimefunItemStack("LEMON_ICED_TEA", new CustomPotion("&eLemon Iced Tea", Color.YELLOW, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&oHunger")), RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {getItem("LEMON"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
 		.register(this);
 
