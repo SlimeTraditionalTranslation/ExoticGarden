@@ -1,16 +1,12 @@
-# ExoticGarden
+# 異國情調花園
+黏液科技的附加 繁體翻譯版<br>
 
-ExoticGarden is a big addon to [Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4) which brings various new Plants, fruits, vegetables and food items to the game.
+異國情調花園是一個大型附加,為遊戲帶來了各種新的植物，水果，蔬菜和食物.<br>
 
-You can find more Information on the **outdated** BukkitDev page:
-https://dev.bukkit.org/projects/exotic-garden
-
-ExoticGarden is licensed under 
-[MIT License](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)
-
-## Download ExoticGarden
-Click on the badge below to go to our "development" build page, where you can download the latest versions before they are released to the public. 
-But keep in mind: These builds are still in development and not guaranteed to work or to be stable.
+[官方原碼連結](https://github.com/TheBusyBiscuit/ExoticGarden)
+## 下載異國情調花園
+下載繁體翻譯版: [點此](https://github.com/xMikux/ExoticGarden/releases)<br>
+你也可以在這裡下載官方的開發版: [開發版構建](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/)
 
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/">
@@ -18,9 +14,14 @@ But keep in mind: These builds are still in development and not guaranteed to wo
   </a>
 </p>
 
-## Contributions
+## Discord
+您可以在Discord上找到官方SlimeFun社區!
+點擊下面的徵標來加入伺服器.
+<p align="center">
+  <a href="https://discord.gg/fsD4Bkh">
+    <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
+  </a>
+</p>
 
-You are allowed, even encouraged, to contribute to ExoticGarden by making Pull Requests.
-These Pull Requests can be Fixes, Changes or even Additions, it is your choice.
-
-Check the license for more Info on redistributing and modifying ExoticGarden.
+## Open Source
+This Project is open-source and licensed under the [MIT License](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)
