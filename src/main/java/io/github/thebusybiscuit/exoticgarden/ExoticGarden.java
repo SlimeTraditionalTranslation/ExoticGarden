@@ -103,7 +103,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
         kitchen = new Kitchen(this, miscCategory);
         kitchen.register(this);
 
-		Research kitchenResearch = new Research(new NamespacedKey(this, "kitchen"), 600, "Kitchen", 30);
+		Research kitchenResearch = new Research(new NamespacedKey(this, "kitchen"), 600, "廚房", 30);
 		kitchenResearch.addItems(kitchen);
 		kitchenResearch.register();
         
@@ -802,7 +802,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		new ItemStack[] {getItem(upperCase + "_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null})
 		.register(this);
 
-		new CustomFood(foodCategory, new SlimefunItemStack(upperCase + "_JELLY_SANDWICH", "8c8a939093ab1cde6677faf7481f311e5f17f63d58825f0e0c174631fb0439", color + name + " 果醬三明治", "", "&7&oo恢复 &b&o" + "8.0" + " &7&o飽食度"),
+		new CustomFood(foodCategory, new SlimefunItemStack(upperCase + "_JELLY_SANDWICH", "8c8a939093ab1cde6677faf7481f311e5f17f63d58825f0e0c174631fb0439", color + name + " 果醬三明治", "", "&7&o恢复 &b&o" + "8.0" + " &7&o飽食度"),
 		new ItemStack[] {null, new ItemStack(Material.BREAD), null, null, getItem(upperCase + "_JUICE"), null, null, new ItemStack(Material.BREAD), null},
 		16)
 		.register(this);
