@@ -745,13 +745,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		.register(this);
 
 		if (pcolor != null) {
-			new Juice(drinksCategory, new SlimefunItemStack(juiceid.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢復 &b&o" + "3.0" + " &7&o")), RecipeType.JUICER,
+			new Juice(drinksCategory, new SlimefunItemStack(juiceid.toUpperCase().replace(" ", "_"), new CustomPotion(color + juice, pcolor, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢復 &b&o" + "3.0" + " &7&o飽食度")), RecipeType.JUICER,
 			new ItemStack[] {getItem(id), null, null, null, null, null, null, null, null})
 			.register(this);
 		}
 
 		if (pie) {
-			new CustomFood(foodCategory, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + " 派", "", "&7&o恢復 &b&o" + "6.5" + " &7&o"),
+			new CustomFood(foodCategory, new SlimefunItemStack(id + "_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", color + name + " 派", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
 			new ItemStack[] {getItem(id), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.MILK_BUCKET), SlimefunItems.WHEAT_FLOUR, null, null, null, null},
 			13)
 			.register(this);
