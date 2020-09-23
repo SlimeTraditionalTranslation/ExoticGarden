@@ -49,8 +49,6 @@ import me.mrCookieSlime.Slimefun.bstats.bukkit.Metrics;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.skull.SkullItem;
-import me.mrCookieSlime.Slimefun.cscorelib2.updater.GitHubBuildsUpdater;
-import me.mrCookieSlime.Slimefun.cscorelib2.updater.Updater;
 
 public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
@@ -85,12 +83,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
 		// Setting up bStats
 		new Metrics(this, 4575);
-		
-		// Auto Updater
-		if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-		    Updater updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/ExoticGarden/master");
-		    updater.start();
-		}
 		
 		SlimefunPlugin.getThirdPartySupportService().loadExoticGarden(this, b -> Optional.ofNullable(harvestPlant(b)));
 
@@ -923,7 +915,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
 	@Override
 	public String getBugTrackerURL() {
-		return "https://github.com/TheBusyBiscuit/ExoticGarden/issues";
+		return "https://github.com/xMikux/ExoticGarden/issues";
 	}
 
 }
