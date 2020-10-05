@@ -413,6 +413,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		.register(this);
 
 		new CustomFood(foodCategory, new SlimefunItemStack("BACON", "e7ba22d5df21e821a6de4b8c9d373a3aa187d8ae74f288a82d2b61f272e5", "&r培根", "", "&7&o恢復 &b&o" + "1.5" + " &7&o飽食度"),
+		3,
 		new ItemStack[] {new ItemStack(Material.COOKED_PORKCHOP), null, null, null, null, null, null, null, null},
 		3)
 		.register(this);
@@ -429,12 +430,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
 		new CustomFood(foodCategory, new SlimefunItemStack("LEAFY_CHICKEN_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r生菜雞肉三明治", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
 		new ItemStack[] {getItem("CHICKEN_SANDWICH"), getItem("LETTUCE"), null, null, null, null, null, null, null},
-		1)
+		13)
 		.register(this);
 
 		new CustomFood(foodCategory, new SlimefunItemStack("LEAFY_FISH_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r生菜魚肉三明治", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
 		new ItemStack[] {getItem("FISH_SANDWICH"), getItem("LETTUCE"), null, null, null, null, null, null, null},
-		11)
+		13)
 		.register(this);
 
 		new CustomFood(foodCategory, new SlimefunItemStack("HAMBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r牛肉漢堡", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
@@ -509,7 +510,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 
 		new CustomFood(foodCategory, new SlimefunItemStack("JAMMY_DODGER", "1d00dfb3a57c068a0cc7b624d8d8852070435d2634c0e5da9cbbab46174af0df", "&c樹莓汁餅乾", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
 		new ItemStack[] {null, getItem("BISCUIT"), null, null, getItem("RASPBERRY_JUICE"), null, null, getItem("BISCUIT"), null},
-		8)
+		10)
 		.register(this);
 
 		new CustomFood(foodCategory, new SlimefunItemStack("PANCAKES", "347f4f5a74c6691280cd80e7148b49b2ce17dcf64fd55368627f5d92a976a6a8", "&r鬆餅", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
