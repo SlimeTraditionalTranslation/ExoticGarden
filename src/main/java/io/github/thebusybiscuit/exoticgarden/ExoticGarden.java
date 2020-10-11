@@ -129,7 +129,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		registerPlant("鳳梨","Pineapple", ChatColor.GOLD,  PlantType.DOUBLE_PLANT, "d7eddd82e575dfd5b7579d89dcd2350c991f0483a7647cffd3d2c587f21");
 
 		registerTree("橡樹蘋果","Oak Apple", "cbb311f3ba1c07c3d1147cd210d81fe11fd8ae9e3db212a0fa748946c3633", "&c", Color.FUCHSIA, "橡樹蘋果汁","Oak Apple Juice", true, Material.DIRT, Material.GRASS_BLOCK);
-		registerTree("椰奶","Coconut", "6d27ded57b94cf715b048ef517ab3f85bef5a7be69f14b1573e14e7e42e2e8", "&6", Color.MAROON, "椰奶","Coconut Milk", false, Material.SAND);
+		registerTree("椰子","Coconut", "6d27ded57b94cf715b048ef517ab3f85bef5a7be69f14b1573e14e7e42e2e8", "&6", Color.MAROON, "椰奶","Coconut Milk", false, Material.SAND);
 		registerTree("櫻桃","Cherry", "c520766b87d2463c34173ffcd578b0e67d163d37a2d7c2e77915cd91144d40d1", "&c", Color.FUCHSIA,"櫻桃汁", "Cherry Juice", true, Material.DIRT, Material.GRASS_BLOCK);
 		registerTree("石榴","Pomegranate", "cbb311f3ba1c07c3d1147cd210d81fe11fd8ae9e3db212a0fa748946c3633", "&4", Color.RED, "石榴汁","Pomegranate Juice", true, Material.DIRT, Material.GRASS_BLOCK);
 		registerTree("檸檬","Lemon", "957fd56ca15978779324df519354b6639a8d9bc1192c7c3de925a329baef6c", "&e", Color.YELLOW, "檸檬汁","Lemon Juice", true, Material.DIRT, Material.GRASS_BLOCK);
@@ -593,17 +593,17 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		10)
 		.register(this);
 
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON_WRAPPED_CHEESE_FILLED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r培根起司熱狗", "&7&o\"When I chef\" - @Eyamaz", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
+		new CustomFood(foodCategory, new SlimefunItemStack("BACON_WRAPPED_CHEESE_FILLED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r培根起司熱狗", "&7&o\"當我做菜的時候\" - @Eyamaz", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
 		new ItemStack[] {getItem("BACON"), getItem("HOT_DOG"), getItem("BACON"), null, getItem("CHEESE"), null, null, null, null},
 		17)
 		.register(this);
 
-		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_BACON_WRAPPED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根熱狗", "&7&o\"wanna talk about hot dogs?\" - @Pahimar", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
+		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_BACON_WRAPPED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根熱狗", "&7&o\"想談談熱狗嗎?\" - @Pahimar", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
 		new ItemStack[] {getItem("BACON"), getItem("HOT_DOG"), getItem("BACON"), null, getItem("BBQ_SAUCE"), null, null, null, null},
 		17)
 		.register(this);
 
-		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_DOUBLE_BACON_WRAPPED_HOT_DOG_IN_A_TORTILLA_WITH_CHEESE", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根起司熱狗", "&7&o\"When I chef\" - @Eyamaz", "", "&7&o恢復 &b&o" + "10.0" + " &7&o飽食度"),
+		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_DOUBLE_BACON_WRAPPED_HOT_DOG_IN_A_TORTILLA_WITH_CHEESE", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根起司熱狗", "&7&o\"當我做菜的時候\" - @Eyamaz", "", "&7&o恢復 &b&o" + "10.0" + " &7&o飽食度"),
 		new ItemStack[] {getItem("BACON"), getItem("BBQ_SAUCE"), getItem("BACON"), getItem("BACON"), new ItemStack(Material.COOKED_PORKCHOP), getItem("BACON"), getItem("CORNMEAL"), getItem("CHEESE"), getItem("CORNMEAL")},
 		20)
 		.register(this);
