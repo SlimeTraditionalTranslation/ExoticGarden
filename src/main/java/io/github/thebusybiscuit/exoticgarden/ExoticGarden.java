@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -29,6 +33,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.exoticgarden.items.Crook;
 import io.github.thebusybiscuit.exoticgarden.items.CustomFood;
 import io.github.thebusybiscuit.exoticgarden.items.ExoticGardenFruit;
+import io.github.thebusybiscuit.exoticgarden.items.FoodRegistry;
 import io.github.thebusybiscuit.exoticgarden.items.GrassSeeds;
 import io.github.thebusybiscuit.exoticgarden.items.Kitchen;
 import io.github.thebusybiscuit.exoticgarden.items.MagicalEssence;
@@ -45,7 +50,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.bstats.bukkit.Metrics;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.skull.SkullItem;
@@ -107,7 +111,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		registerBerry("葡萄","Grape", ChatColor.RED, Color.RED, PlantType.BUSH, "6ee97649bd999955413fcbf0b269c91be4342b10d0755bad7a17e95fcefdab0");
 		registerBerry("藍莓","Blueberry", ChatColor.BLUE, Color.BLUE, PlantType.BUSH, "a5a5c4a0a16dabc9b1ec72fc83e23ac15d0197de61b138babca7c8a29c820");
 		registerBerry("接骨木果","Elderberry", ChatColor.RED, Color.FUCHSIA, PlantType.BUSH, "1e4883a1e22c324e753151e2ac424c74f1cc646eec8ea0db3420f1dd1d8b");
-		registerBerry("覆盆子","Raspberry", ChatColor.LIGHT_PURPLE, Color.FUCHSIA, PlantType.BUSH,"8262c445bc2dd1c5bbc8b93f2482f9fdbef48a7245e1bdb361d4a568190d9b5");
+		registerBerry("樹莓","Raspberry", ChatColor.LIGHT_PURPLE, Color.FUCHSIA, PlantType.BUSH,"8262c445bc2dd1c5bbc8b93f2482f9fdbef48a7245e1bdb361d4a568190d9b5");
 		registerBerry("黑莓","Blackberry", ChatColor.DARK_GRAY, Color.GRAY, PlantType.BUSH, "2769f8b78c42e272a669d6e6d19ba8651b710ab76f6b46d909d6a3d482754");
 		registerBerry("蔓越莓","Cranberry", ChatColor.RED, Color.FUCHSIA, PlantType.BUSH, "d5fe6c718fba719ff622237ed9ea6827d093effab814be2192e9643e3e3d7");
 		registerBerry("越橘","Cowberry", ChatColor.RED, Color.FUCHSIA, PlantType.BUSH, "a04e54bf255ab0b1c498ca3a0ceae5c7c45f18623a5a02f78a7912701a3249");
@@ -140,7 +144,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		registerTree("梨子","Pear", "2de28df844961a8eca8efb79ebb4ae10b834c64a66815e8b645aeff75889664b", "&a", Color.LIME, "梨子汁","Pear Juice", true, Material.DIRT, Material.GRASS_BLOCK);
 		registerTree("火龍果","Dragon Fruit", "847d73a91b52393f2c27e453fb89ab3d784054d414e390d58abd22512edd2b", "&d", Color.FUCHSIA, "火龍果汁","Dragon Fruit Juice", true, Material.DIRT, Material.GRASS_BLOCK);
 
-		registerDishes();
+		FoodRegistry.register(this, miscCategory, drinksCategory, foodCategory);
 
 		registerMagicalPlant("煤炭","Coal", new ItemStack(Material.COAL, 2), "7788f5ddaf52c5842287b9427a74dac8f0919eb2fdb1b51365ab25eb392c47",
 		new ItemStack[] {null, new ItemStack(Material.COAL_ORE), null, new ItemStack(Material.COAL_ORE), new ItemStack(Material.WHEAT_SEEDS), new ItemStack(Material.COAL_ORE), null, new ItemStack(Material.COAL_ORE), null});
@@ -224,497 +228,6 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		cfg.save();
 	}
 
-	private void registerDishes() {
-		new Juice(drinksCategory, new SlimefunItemStack("LIME_SMOOTHIE", new CustomPotion("&a酸橙冰沙", Color.LIME, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("LIME_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("TOMATO_JUICE", new CustomPotion("&4番茄汁", Color.FUCHSIA, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢復 &b&o" + "3.0" + " &7&o飽食度")), RecipeType.JUICER,
-		new ItemStack[] {getItem("TOMATO"), null, null, null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("WINE", new CustomPotion("&c葡萄酒", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("GRAPE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("LEMON_ICED_TEA", new CustomPotion("&e檸檬冰茶", Color.YELLOW, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("LEMON"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("RASPBERRY_ICED_TEA", new CustomPotion("&d覆盆子冰茶", Color.FUCHSIA, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("RASPBERRY"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("PEACH_ICED_TEA", new CustomPotion("&d桃子冰茶", Color.FUCHSIA, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("PEACH"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("STRAWBERRY_ICED_TEA", new CustomPotion("&4草莓冰茶", Color.FUCHSIA, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("STRAWBERRY"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("CHERRY_ICED_TEA", new CustomPotion("&c櫻桃冰茶", Color.FUCHSIA, new PotionEffect(PotionEffectType.SATURATION, 13, 0), "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("CHERRY"), getItem("ICE_CUBE"), getItem("TEA_LEAF"), null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("THAI_TEA", new CustomPotion("&6泰式奶茶", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "", "&7&o恢復 &b&o" + "7.0" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("TEA_LEAF"), new ItemStack(Material.SUGAR), SlimefunItems.HEAVY_CREAM, getItem("COCONUT_MILK"), null, null, null, null, null})
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("PUMPKIN_BREAD", "f3487d457f9062d787a3e6ce1c4664bf7402ec67dd111256f19b38ce4f670", "&r南瓜麵包", "", "&7&o恢復 &b&o" + "4.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.PUMPKIN), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, null, null, null, null, null, null},
-		8)
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("MAYO", "7f8d536c8c2c2596bcc1709590a9d7e33061c56e658974cd81bb832ea4d8842", "&r美乃滋"), RecipeType.GRIND_STONE,
-		new ItemStack[] {new ItemStack(Material.EGG), null, null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("MUSTARD", "9b9e99621b9773b29e375e62c6495ff1ac847f85b29816c2eb77b587874ba62", "&e芥末"), RecipeType.GRIND_STONE,
-		new ItemStack[] {getItem("MUSTARD_SEED"), null, null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("BBQ_SAUCE", "a86f19bf23d248e662c9c8b7fa15efb8a1f1d5bdacd3b8625a9b59e93ac8a", "&c烤肉醬"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("TOMATO"), getItem("MUSTARD"), getItem("SALT"), new ItemStack(Material.SUGAR), null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("VEGETABLE_OIL", "2acb28fb8a310443af02c7a1283ace95a9906b2e0e6f3636597edbe8cad4e", "&r植物油"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.BEETROOT_SEEDS), new ItemStack(Material.WATER_BUCKET), null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("CORNMEAL", Material.SUGAR, "&r玉米粉"), RecipeType.GRIND_STONE,
-		new ItemStack[] {getItem("CORN"), null, null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("YEAST", "606be2df2122344bda479feece365ee0e9d5da276afa0e8ce8d848f373dd131", "&r酵母"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.WATER_BUCKET), null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("MOLASSES", "f21d7b155edf440cb87ec94487cba64e8d128171eb1187c26d5ffe58bd794c", "&8糖蜜"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.BEETROOT), new ItemStack(Material.SUGAR_CANE), new ItemStack(Material.WATER_BUCKET), null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("BROWN_SUGAR", "964d4247278e1498374aa6b0e47368fe4f138abc94e583e8839965fbe241be", "&r紅糖"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {new ItemStack(Material.SUGAR), getItem("MOLASSES"), null, null, null, null, null, null, null})
-		.register(this);
-
-		new SlimefunItem(miscCategory, new SlimefunItemStack("COUNTRY_GRAVY", "f21fa9439bfd8384464146f9c67ebd4c5fbf4196924892627eadf3bce1ff", "&r鄉村肉汁"), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.SUGAR), getItem("BLACK_PEPPER"), null, null, null, null, null, null})
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHOCOLATE_BAR", "819f948d17718adace5dd6e050c586229653fef645d7113ab94d17b639cc466", "&r巧克力塊", "", "&7&o恢復 &b&o" + "1.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.COCOA_BEANS), SlimefunItems.HEAVY_CREAM, null, null, null, null, null, null, null},
-		3)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("POTATO_SALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", "&r馬鈴薯沙拉", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BAKED_POTATO), getItem("MAYO"), getItem("ONION"), new ItemStack(Material.BOWL), null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r雞肉三明治", "", "&7&o恢復 &b&o" + "5.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.COOKED_CHICKEN), getItem("MAYO"), new ItemStack(Material.BREAD), null, null, null, null, null, null},
-		11)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("FISH_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r魚肉三明治", "", "&7&o恢復 &b&o" + "5.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.COOKED_COD), getItem("MAYO"), new ItemStack(Material.BREAD), null, null, null, null, null, null},
-		11)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BAGEL", "502e92f13de3bee69228c384478e761230681e5fce9bda195daeaf8484139331", "&r貝果", "", "&7&o恢復 &b&o" + "2.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("YEAST"), SlimefunItems.WHEAT_FLOUR, null, null, null, null, null, null, null},
-		4)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("EGG_SALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", "&r雞蛋沙拉", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.EGG), getItem("MAYO"), new ItemStack(Material.BOWL), null, null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TOMATO_SOUP", "76366f17428a4990126844f74a02dbf5524f35be1323f8fab0bf61a57ff41de3", "&4番茄湯", "", "&7&o恢復 &b&o" + "5.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BOWL), getItem("TOMATO"), null, null, null, null, null, null, null},
-		11)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("STRAWBERRY_SALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", "&c草莓沙拉", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BOWL), getItem("STRAWBERRY"), getItem("LETTUCE"), getItem("TOMATO"), null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("GRAPE_SALAD", "1fe92e11a67b56935446a214caa3723d29e6db56c55fa8d43179a8a3176c6c1", "&c葡萄沙拉", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BOWL), getItem("GRAPE"), getItem("LETTUCE"), getItem("TOMATO"), null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_CURRY", "d09e0dd5489f03efdc8083088f521b82946cdec98fc1c94c4e09792e4735184a", "&r咖哩雞", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CILANTRO"), new ItemStack(Material.COOKED_CHICKEN), getItem("BROWN_SUGAR"), getItem("CURRY_LEAF"), getItem("VEGETABLE_OIL"), getItem("CURRY_LEAF"), getItem("ONION"), new ItemStack(Material.BOWL), getItem("GARLIC")},
-		16)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("COCONUT_CHICKEN_CURRY", "d09e0dd5489f03efdc8083088f521b82946cdec98fc1c94c4e09792e4735184a", "&r椰香咖哩雞", "", "&7&o恢復 &b&o" + "9.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("COCONUT"), getItem("COCONUT"), getItem("CHICKEN_CURRY"), null, null, null, null, null, null},
-		19)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BISCUIT", "ef094456fd794b6531fc6dec6f396b680b9536002063e11ce24d0a74b0b7d885", "&6餅乾", "", "&7&o恢復 &b&o" + "2.0" + " &7&o飽食度"),
-		new ItemStack[] {SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, null, null, null, null, null, null, null},
-		4)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BISCUITS_GRAVY", "28bbb835e22d9ec62e22411b8e015138d5597283ad36e618fe44ba5f1a6b60fd", "&r鄉村肉汁餅乾", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("COUNTRY_GRAVY"), getItem("COUNTRY_GRAVY"), getItem("COUNTRY_GRAVY"), getItem("BISCUIT"), getItem("BISCUIT"), getItem("BISCUIT"), null, new ItemStack(Material.BOWL), null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHEESECAKE", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&r起司蛋糕", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, new ItemStack(Material.EGG), null, null, null, null, null},
-		16)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHERRY_CHEESECAKE", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&c櫻桃起司蛋糕", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESECAKE"), getItem("CHERRY"), null, null, null, null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BLUEBERRY_CHEESECAKE", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&9藍莓起司蛋糕", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESECAKE"), getItem("BLUEBERRY"), null, null, null, null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("PUMPKIN_CHEESECAKE", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&6南瓜起司蛋糕", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESECAKE"), new ItemStack(Material.PUMPKIN), null, null, null, null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SWEETENED_PEAR_CHEESECAKE", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&6梨子起司蛋糕", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESECAKE"), new ItemStack(Material.SUGAR), getItem("PEAR"), null, null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BLACKBERRY_COBBLER", "c6c36523c2d11b8c8ea2e992291c52a654760ec72dcc32da2cb63616481ee", "&8黑莓餡餅", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.SUGAR), getItem("BLACKBERRY"), SlimefunItems.WHEAT_FLOUR, null, null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("PAVLOVA", "6365b61e79fcb913bc860f4ec635d4a6ab1b74bfab62fb6ea6d89a16aa841", "&r草莓帕夫洛娃蛋糕", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("LEMON"), getItem("STRAWBERRY"), new ItemStack(Material.SUGAR), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CORN_ON_THE_COB", Material.GOLDEN_CARROT, "&6熟玉米", "", "&7&o恢復 &b&o" + "4.5" + " &7&o飽食度"),
-		new ItemStack[] {SlimefunItems.BUTTER, getItem("CORN"), null, null, null, null, null, null, null},
-		9)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CREAMED_CORN", "9174b34c549eed8bafe727618bab6821afcb1787b5decd1eecd6c213e7e7c6d", "&r奶油玉米", "", "&7&o恢復 &b&o" + "4.0" + " &7&o飽食度"),
-		new ItemStack[] {SlimefunItems.HEAVY_CREAM, getItem("CORN"), new ItemStack(Material.BOWL), null, null, null, null, null, null},
-		8)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON", "e7ba22d5df21e821a6de4b8c9d373a3aa187d8ae74f288a82d2b61f272e5", "&r培根", "", "&7&o恢復 &b&o" + "1.5" + " &7&o飽食度"),
-		3,
-		new ItemStack[] {new ItemStack(Material.COOKED_PORKCHOP), null, null, null, null, null, null, null, null},
-		3)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r三明治", "", "&7&o恢復 &b&o" + "9.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), getItem("MAYO"), new ItemStack(Material.COOKED_BEEF), getItem("TOMATO"), getItem("LETTUCE"), null, null, null, null},
-		19)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BLT", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r培根生菜番茄三明治", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), new ItemStack(Material.COOKED_PORKCHOP), getItem("TOMATO"), getItem("LETTUCE"), null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("LEAFY_CHICKEN_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r生菜雞肉三明治", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHICKEN_SANDWICH"), getItem("LETTUCE"), null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("LEAFY_FISH_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r生菜魚肉三明治", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("FISH_SANDWICH"), getItem("LETTUCE"), null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("HAMBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r牛肉漢堡", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), new ItemStack(Material.COOKED_BEEF), null, null, null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHEESEBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r牛肉起司漢堡", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("HAMBURGER"), SlimefunItems.CHEESE, null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON_CHEESEBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r培根牛肉起司漢堡", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESEBURGER"), getItem("BACON"), null, null, null, null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("DELUXE_CHEESEBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r豪華牛肉起司漢堡", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHEESEBURGER"), getItem("LETTUCE"), getItem("TOMATO"), null, null, null, null, null, null},
-		16)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("GARLIC_BREAD", "a33fa7d3e63b280a5d7e2bb09332dff86b17decd2b09eccdd62da5265597f74d", "&r大蒜麵包", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("GARLIC"), new ItemStack(Material.BREAD), null, null, null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("GARLIC_CHEESE_BREAD", "a33fa7d3e63b280a5d7e2bb09332dff86b17decd2b09eccdd62da5265597f74d", "&r大蒜起司麵包", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {SlimefunItems.CHEESE, getItem("GARLIC"), new ItemStack(Material.BREAD), null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CARROT_CAKE", "f9136514f342e7c5208a1422506a866158ef84d2b249220139e8bf6032e193", "&r紅蘿蔔蛋糕", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.CARROT), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.SUGAR), new ItemStack(Material.EGG), null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_BURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r雞肉漢堡", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), new ItemStack(Material.COOKED_CHICKEN), null, null, null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_CHEESEBURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r雞肉起司漢堡", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHICKEN_BURGER"), SlimefunItems.CHEESE, null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON_BURGER", "cdadf1744433e1c79d1d59d2777d939de159a24cf57e8a61c82bc4fe3777553c", "&r培根漢堡", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), getItem("BACON"), null, null, null, null, null, null, null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r培根三明治", "", "&7&o恢復 &b&o" + "9.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), getItem("BACON"), getItem("MAYO"), getItem("TOMATO"), getItem("LETTUCE"), null, null, null, null},
-		19)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TACO", "98ced74a22021a535f6bce21c8c632b273dc2d9552b71a38d57269b3538cf", "&r墨西哥夾餅", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORNMEAL"), new ItemStack(Material.COOKED_BEEF), getItem("LETTUCE"), getItem("TOMATO"), getItem("CHEESE"), null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("FISH_TACO", "98ced74a22021a535f6bce21c8c632b273dc2d9552b71a38d57269b3538cf", "&r鮪魚墨西哥夾餅", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORNMEAL"), new ItemStack(Material.COOKED_COD), getItem("LETTUCE"), getItem("TOMATO"), getItem("CHEESE"), null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("STREET_TACO", "1ad7c0a04f1485c7a3ef261a48ee83b2f1aa701ab11f3fc911e0366a9b97e", "&r雞肉墨西哥夾餅", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORNMEAL"), new ItemStack(Material.COOKED_BEEF), getItem("CILANTRO"), getItem("ONION"), null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("JAMMY_DODGER", "1d00dfb3a57c068a0cc7b624d8d8852070435d2634c0e5da9cbbab46174af0df", "&c樹莓汁餅乾", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {null, getItem("BISCUIT"), null, null, getItem("RASPBERRY_JUICE"), null, null, getItem("BISCUIT"), null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("PANCAKES", "347f4f5a74c6691280cd80e7148b49b2ce17dcf64fd55368627f5d92a976a6a8", "&r鬆餅", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("WHEAT_FLOUR"), new ItemStack(Material.SUGAR), getItem("BUTTER"), new ItemStack(Material.EGG), new ItemStack(Material.EGG), null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BLUEBERRY_PANCAKES", "347f4f5a74c6691280cd80e7148b49b2ce17dcf64fd55368627f5d92a976a6a8", "&r藍莓鬆餅", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("PANCAKES"), getItem("BLUEBERRY"), null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SWEET_BERRY_PANCAKES", "e44ca99e308a186b30281b2017c44189acafb591152f81feea96fecbe57", "&r甜莓鬆餅", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("PANCAKES"), new ItemStack(Material.SWEET_BERRIES), null, null, null, null, null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("FRIES", "563b8aeaf1df11488efc9bd303c233a87ccba3b33f7fba9c2fecaee9567f053", "&r薯條", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.POTATO), getItem("SALT"), null, null, null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("POPCORN", "1497b147cfae52205597f72e3c4ef52512e9677020e4b4fa7512c3c6acdd8c1", "&r爆米花", "", "&7&o恢復 &b&o" + "4.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORN"), getItem("BUTTER"), null, null, null, null, null, null, null},
-		8)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SWEET_POPCORN", "1497b147cfae52205597f72e3c4ef52512e9677020e4b4fa7512c3c6acdd8c1", "&r爆米花 &7(甜)", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORN"), getItem("BUTTER"), new ItemStack(Material.SUGAR), null, null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SALTY_POPCORN", "1497b147cfae52205597f72e3c4ef52512e9677020e4b4fa7512c3c6acdd8c1", "&r爆米花 &7(鹹)", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORN"), getItem("BUTTER"), getItem("SALT"), null, null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SHEPARDS_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r牧羊人的餡餅", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CABBAGE"), new ItemStack(Material.CARROT), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.COOKED_BEEF), getItem("TOMATO"), null, null, null, null},
-		16)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_POT_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r雞肉派", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.COOKED_CHICKEN), new ItemStack(Material.CARROT), SlimefunItems.WHEAT_FLOUR, new ItemStack(Material.POTATO), null, null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHOCOLATE_CAKE", "9119fca4f28a755d37fbe5dcf6d8c3ef50fe394c1a7850bc7e2b71ee78303c4c", "&r巧克力蛋糕", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, new ItemStack(Material.EGG), null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CREAM_COOKIE", "dfd71e20fc50abf0de2ef7decfc01ce27ad51955759e072ceaab96355f594f0", "&r奶油餅乾", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, SlimefunItems.HEAVY_CREAM, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BLUEBERRY_MUFFIN", "83794c736fc76e45706830325b95969466d86f8d7b28fce8edb2c75e2ab25c", "&r藍莓瑪芬", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("BLUEBERRY"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, SlimefunItems.HEAVY_CREAM, new ItemStack(Material.EGG), null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("PUMPKIN_MUFFIN", "83794c736fc76e45706830325b95969466d86f8d7b28fce8edb2c75e2ab25c", "&r南瓜瑪芬", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.PUMPKIN), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, SlimefunItems.HEAVY_CREAM, new ItemStack(Material.EGG), null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHOCOLATE_CHIP_MUFFIN", "83794c736fc76e45706830325b95969466d86f8d7b28fce8edb2c75e2ab25c", "&r巧克力瑪芬", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, SlimefunItems.HEAVY_CREAM, new ItemStack(Material.EGG), null, null, null},
-		13)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BOSTON_CREAM_PIE", "dfd71e20fc50abf0de2ef7decfc01ce27ad51955759e072ceaab96355f594f0", "&r波士頓奶油派", "", "&7&o恢復 &b&o" + "4.5" + " &7&o飽食度"),
-		new ItemStack[] {null, getItem("CHOCOLATE_BAR"), null, null, SlimefunItems.HEAVY_CREAM, null, null, getItem("BISCUIT"), null},
-		9)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r熱狗", "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度"),
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.COOKED_PORKCHOP), null, null, new ItemStack(Material.BREAD), null},
-		10)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BACON_WRAPPED_CHEESE_FILLED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r培根起司熱狗", "&7&o\"當我做菜的時候\" - @Eyamaz", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("BACON"), getItem("HOT_DOG"), getItem("BACON"), null, getItem("CHEESE"), null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_BACON_WRAPPED_HOT_DOG", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根熱狗", "&7&o\"想談談熱狗嗎?\" - @Pahimar", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("BACON"), getItem("HOT_DOG"), getItem("BACON"), null, getItem("BBQ_SAUCE"), null, null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BBQ_DOUBLE_BACON_WRAPPED_HOT_DOG_IN_A_TORTILLA_WITH_CHEESE", "33f2d7d7a8b1b969142881eb5a87e737b5f75fb808b9a157adddb2c6aec382", "&r燒烤培根起司熱狗", "&7&o\"當我做菜的時候\" - @Eyamaz", "", "&7&o恢復 &b&o" + "10.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("BACON"), getItem("BBQ_SAUCE"), getItem("BACON"), getItem("BACON"), new ItemStack(Material.COOKED_PORKCHOP), getItem("BACON"), getItem("CORNMEAL"), getItem("CHEESE"), getItem("CORNMEAL")},
-		20)
-		.register(this);
-
-		new CustomFood(drinksCategory, new SlimefunItemStack("SWEETENED_TEA", "d8e94ddd769a5bea748376b4ec7383fd36d267894d7c3bee011e8e4f5fcd7", "&a甜茶", "", "&7&o恢復 &b&o" + "3.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("TEA_LEAF"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null},
-		6)
-		.register(this);
-
-		new CustomFood(drinksCategory, new SlimefunItemStack("HOT_CHOCOLATE", "411511bdd55bcb82803c8039f1c155fd43062636e23d4d46c4d761c04d22c2", "&6熱巧克力", "", "&7&o恢復 &b&o" + "4.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), SlimefunItems.HEAVY_CREAM, null, null, null, null, null, null, null},
-		8)
-		.register(this);
-
-		new CustomFood(drinksCategory, new SlimefunItemStack("PINACOLADA", "2a8f1f70e85825607d28edce1a2ad4506e732b4a5345a5ea6e807c4b313e88", "&6鳳梨可樂達", "", "&7&o恢復 &b&o" + "7.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("PINEAPPLE"), getItem("ICE_CUBE"), getItem("COCONUT_MILK"), null, null, null, null, null, null},
-		14)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHOCOLATE_STRAWBERRY", "6d4ed7c73ac2853dfcaa9ca789fb18da1d47b17ad68b2da748dbd11de1a49ef", "&c巧克力草莓", "", "&7&o恢復 &b&o" + "2.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), getItem("STRAWBERRY"), null, null, null, null, null, null, null},
-		5)
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("LEMONADE", new CustomPotion("&e檸檬水", Color.YELLOW, new PotionEffect(PotionEffectType.SATURATION, 8, 0), "", "&7&o恢復 &b&o" + "4.0" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("LEMON_JUICE"), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null})
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("SWEET_POTATO_PIE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&r地瓜派", "", "&7&o恢復 &b&o" + "6.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("SWEET_POTATO"), new ItemStack(Material.EGG), SlimefunItems.HEAVY_CREAM, SlimefunItems.WHEAT_FLOUR, null, null, null, null, null},
-		13);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("LAMINGTON", "9119fca4f28a755d37fbe5dcf6d8c3ef50fe394c1a7850bc7e2b71ee78303c4c", "&r巧克力椰絲蛋糕", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, getItem("COCONUT"), null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("WAFFLES", "347f4f5a74c6691280cd80e7148b49b2ce17dcf64fd55368627f5d92a976a6a8", "&r格子鬆餅", "", "&7&o恢復 &b&o" + "6.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("WHEAT_FLOUR"), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), getItem("BUTTER"), null, null, null, null, null},
-		12)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CLUB_SANDWICH", "a14216d10714082bbe3f412423e6b19232352f4d64f9aca3913cb46318d3ed", "&r總匯三明治", "", "&7&o恢復 &b&o" + "9.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), getItem("MAYO"), getItem("BACON"), getItem("TOMATO"), getItem("LETTUCE"), getItem("MUSTARD"), null, null, null},
-		19)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("BURRITO", "a387a621e266186e60683392eb274ebb225b04868ab959177d9dc181d8f286", "&r墨西哥捲餅", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORNMEAL"), new ItemStack(Material.COOKED_BEEF), getItem("LETTUCE"), getItem("TOMATO"), getItem("HEAVY_CREAM"), getItem("CHEESE"), null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHICKEN_BURRITO", "a387a621e266186e60683392eb274ebb225b04868ab959177d9dc181d8f286", "&r雞肉墨西哥捲餅", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CORNMEAL"), new ItemStack(Material.COOKED_CHICKEN), getItem("LETTUCE"), getItem("TOMATO"), getItem("HEAVY_CREAM"), getItem("CHEESE"), null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("GRILLED_SANDWICH", "baee84d19c85aff796c88abda21ec4c92c655e2d67b72e5e77b5aa5e99ed", "&r烤起司三明治", "", "&7&o恢復 &b&o" + "5.5" + " &7&o飽食度"),
-		new ItemStack[] {new ItemStack(Material.BREAD), new ItemStack(Material.COOKED_PORKCHOP), getItem("CHEESE"), null, null, null, null, null, null},
-		11)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("LASAGNA", "03a3574a848f36ae37121e9058aa61c12a261ee5a3716f6d8269e11e19e37", "&r千層麵", "", "&7&o恢復 &b&o" + "8.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("TOMATO"), getItem("CHEESE"), SlimefunItems.WHEAT_FLOUR, getItem("TOMATO"), getItem("CHEESE"), new ItemStack(Material.COOKED_BEEF), null, null, null},
-		17)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("ICE_CREAM", "95366ca17974892e4fd4c7b9b18feb11f05ba2ec47aa5035c81a9533b28", "&r冰淇淋", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("HEAVY_CREAM"), getItem("ICE_CUBE"), new ItemStack(Material.SUGAR), new ItemStack(Material.COCOA_BEANS), getItem("STRAWBERRY"), null, null, null, null},
-		16)
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("PINEAPPLE_JUICE", new CustomPotion("&6鳳梨果汁", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "", "&7&o恢復 &b&o" + "3.0" + " &7&o飽食度")), RecipeType.JUICER,
-		new ItemStack[] {getItem("PINEAPPLE"), null, null, null, null, null, null, null, null})
-		.register(this);
-
-		new Juice(drinksCategory, new SlimefunItemStack("PINEAPPLE_SMOOTHIE", new CustomPotion("&6鳳梨冰沙", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 10, 0), "", "&7&o恢復 &b&o" + "5.0" + " &7&o飽食度")), RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {getItem("PINEAPPLE_JUICE"), getItem("ICE_CUBE"), null, null, null, null, null, null, null})
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TIRAMISU", "169091d288022c7b0eb6d3e3f44b0fea7f2c069f497491a1dcab587eb1d56d4", "&r提拉米蘇", "", "&7&o恢復 &b&o" + "8.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("HEAVY_CREAM"), new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), new ItemStack(Material.COCOA_BEANS), new ItemStack(Material.EGG), null, null, null, null},
-		16)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TIRAMISU_WITH_STRAWBERRIES", "169091d288022c7b0eb6d3e3f44b0fea7f2c069f497491a1dcab587eb1d56d4", "&r草莓提拉米蘇", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("TIRAMISU"), getItem("STRAWBERRY"), null, null, null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TIRAMISU_WITH_RASPBERRIES", "169091d288022c7b0eb6d3e3f44b0fea7f2c069f497491a1dcab587eb1d56d4", "&r覆盆子提拉米蘇", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("TIRAMISU"), getItem("RASPBERRY"), null, null, null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("TIRAMISU_WITH_BLACKBERRIES", "169091d288022c7b0eb6d3e3f44b0fea7f2c069f497491a1dcab587eb1d56d4", "&r黑莓提拉米蘇", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("TIRAMISU"), getItem("BLACKBERRY"), null, null, null, null, null, null, null},
-		18)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("CHOCOLATE_PEAR_CAKE", "9119fca4f28a755d37fbe5dcf6d8c3ef50fe394c1a7850bc7e2b71ee78303c4c", "&r巧克力梨子蛋糕", "", "&7&o恢復 &b&o" + "9.5" + " &7&o飽食度"),
-		new ItemStack[] {getItem("CHOCOLATE_BAR"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, getItem("PEAR"), new ItemStack(Material.EGG), null, null, null},
-		19)
-		.register(this);
-
-		new CustomFood(foodCategory, new SlimefunItemStack("APPLE_PEAR_CAKE", "3418c6b0a29fc1fe791c89774d828ff63d2a9fa6c83373ef3aa47bf3eb79", "&c蘋果梨子蛋糕", "", "&7&o恢復 &b&o" + "9.0" + " &7&o飽食度"),
-		new ItemStack[] {getItem("APPLE"), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR, SlimefunItems.BUTTER, getItem("PEAR"), new ItemStack(Material.EGG), null, null, null},
-		18)
-		.register(this);
-	}
-
 	@Override
 	public void onDisable() {
 		instance = null;
@@ -755,7 +268,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		}
 	}
 
-	private void saveSchematic(String id) {
+	private void saveSchematic(@Nonnull String id) {
 		try (InputStream input = getClass().getResourceAsStream("/schematics/" + id + ".schematic")) {
 			try (FileOutputStream output = new FileOutputStream(new File(schematicsFolder, id + ".schematic"))) {
 				byte[] buffer = new byte[1024];
@@ -766,7 +279,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
                 }
 			}
 		} catch (IOException e) {
-			Slimefun.getLogger().log(Level.SEVERE, "Failed to load file: \"" + id + ".schematic\"", e);
+			Slimefun.getLogger().log(Level.SEVERE, e, () -> "無法加載檔案: \"" + id + ".schematic\"");
 		}
 	}
 
@@ -806,7 +319,8 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		.register(this);
 	}
 
-	public static ItemStack getItem(String id) {
+	@Nonnull
+	private static ItemStack getItem(@Nonnull String id) {
 		SlimefunItem item = SlimefunItem.getByID(id);
 		return item != null ? item.getItem() : null;
 	}
@@ -849,9 +363,13 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		magicalEssence.register(this);
 	}
 
-	public static ItemStack harvestPlant(Block block) {
+	@Nullable
+	public static ItemStack harvestPlant(@Nonnull Block block) {
 		SlimefunItem item = BlockStorage.check(block);
-		if (item == null) return null;
+		
+		if (item == null) {
+		    return null;
+		}
 
 		for (Berry berry : getBerries()) {
 			if (item.getID().equalsIgnoreCase(berry.getID())) {
@@ -860,10 +378,11 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 					case DOUBLE_PLANT:
 						Block plant = block;
 
-						if (Tag.LEAVES.isTagged(block.getType()))
-							block = block.getRelative(BlockFace.UP);
-						else
-							plant = block.getRelative(BlockFace.DOWN);
+						if (Tag.LEAVES.isTagged(block.getType())) {
+						    block = block.getRelative(BlockFace.UP);
+						} else {
+						    plant = block.getRelative(BlockFace.DOWN);
+						}
 
 						BlockStorage.deleteLocationInfoUnsafely(block.getLocation(), false);
 						block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, Material.OAK_LEAVES);
@@ -872,12 +391,12 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 						plant.setType(Material.OAK_SAPLING);
 						BlockStorage.deleteLocationInfoUnsafely(plant.getLocation(), false);
 						BlockStorage.store(plant, getItem(berry.toBush()));
-						return berry.getItem();
+						return berry.getItem().clone();
 					default:
 						block.setType(Material.OAK_SAPLING);
 						BlockStorage.deleteLocationInfoUnsafely(block.getLocation(), false);
 						BlockStorage.store(block, getItem(berry.toBush()));
-						return berry.getItem();
+						return berry.getItem().clone();
 				}
 			}
 		}
@@ -905,7 +424,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
 		return instance.berries;
 	}
 
-	public static Map<String, ItemStack> getItems() {
+	public static Map<String, ItemStack> getGrassDrops() {
 		return instance.items;
 	}
 

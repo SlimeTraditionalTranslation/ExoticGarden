@@ -1,7 +1,7 @@
 name: ExoticGarden
 version: ${project.version}
 author: The Slimefun 4 Community
-description: A Slimefun Addon that adds new Plants and dishes to the game
+description: 黏液科技附加 異國情調花園 繁體翻譯版.
 api-version: '1.13'
 
 main: io.github.thebusybiscuit.exoticgarden.ExoticGarden
