@@ -3,7 +3,8 @@
 
 異國情調花園是一個大型附加,為遊戲帶來了各種新的植物，水果，蔬菜和食物.<br>
 
-[官方原碼連結](https://github.com/TheBusyBiscuit/ExoticGarden)
+此為**非官方**版本, 請勿在該作者的問題追蹤內回報!
+[原作者連結](https://github.com/TheBusyBiscuit/ExoticGarden)
 ## 下載異國情調花園
 繁體翻譯版: [構建頁面](https://xmikux.github.io/builds/xMikux/ExoticGarden/master)<br>
 官方開發版: [開發版構建頁面](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/)

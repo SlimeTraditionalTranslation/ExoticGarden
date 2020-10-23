@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.bstats.bukkit.Metrics;
+//import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -86,7 +86,7 @@ public class ExoticGarden extends JavaPlugin implements SlimefunAddon {
     	cfg = new Config(this);
 
 		// Setting up bStats
-		new Metrics(this, 4575);
+		//new Metrics(this, 4575);
 		
 		SlimefunPlugin.getThirdPartySupportService().loadExoticGarden(this, b -> Optional.ofNullable(harvestPlant(b)));
 
