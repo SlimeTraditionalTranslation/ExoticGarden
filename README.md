@@ -14,7 +14,7 @@
 
 
 ## Discord
-您可以在Discord上找到官方SlimeFun社區!
+您可以在Discord上找到官方Slimefun社區!
 點擊下面的徵標來加入伺服器.
 <p align="center">
   <a href="https://discord.gg/fsD4Bkh">
