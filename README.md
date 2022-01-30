@@ -23,4 +23,4 @@
 </p>
 
 ## Open Source
-This Project is open-source and licensed under the [MIT License](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)
+This Project is open-source and licensed under the [GNU General Public License v3.0](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)
