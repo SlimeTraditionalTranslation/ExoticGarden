@@ -1,7 +1,7 @@
 name: ExoticGarden
 version: ${project.version}
 author: TheBusyBiscuit
-description: 黏液科技附加 異國情調花園 繁體翻譯版.
+description: 黏液科技附加「異國情調花園」繁體中文版。
 website: https://github.com/TheBusyBiscuit/ExoticGarden
 
 api-version: '1.13'
