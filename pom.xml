@@ -58,6 +58,7 @@
                 <filtering>false</filtering>
                 <includes>
                     <include>schematics/*</include>
+                    <include>translations/*.po</include>
                 </includes>
             </resource>
         </resources>
@@ -141,6 +142,18 @@
             <artifactId>GuizhanLibPlugin</artifactId>
             <version>1.1.1</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.SlimeTraditionalTranslation</groupId>
+            <artifactId>dough</artifactId>
+            <version>02b9258298</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mini2Dx</groupId>
+            <artifactId>gettext-lib</artifactId>
+            <version>1.11.0</version>
         </dependency>
     </dependencies>
 </project>

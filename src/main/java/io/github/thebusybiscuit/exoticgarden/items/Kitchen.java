@@ -28,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.mini2Dx.gettext.GetText;
 
 public class Kitchen extends MultiBlockMachine {
 
@@ -35,7 +36,7 @@ public class Kitchen extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public Kitchen(ExoticGarden plugin, ItemGroup itemGroup) {
-        super(itemGroup, new SlimefunItemStack("KITCHEN", Material.CAULDRON, "&e厨房", "", "&a&o你可以在此做出各式各样的美味!", "&a&o做好的成品可以在熔炉里获取"), new ItemStack[] { new CustomItemStack(Material.BRICK_STAIRS, "&o砖楼梯 (倒着放)"), new CustomItemStack(Material.BRICK_STAIRS, "&o砖楼梯 (倒着放)"), new ItemStack(Material.BRICKS), new ItemStack(Material.STONE_PRESSURE_PLATE), new ItemStack(Material.IRON_TRAPDOOR), new ItemStack(Material.BOOKSHELF), new ItemStack(Material.FURNACE), new ItemStack(Material.DISPENSER), new ItemStack(Material.CRAFTING_TABLE) }, new ItemStack[0], BlockFace.SELF);
+        super(itemGroup, new SlimefunItemStack("KITCHEN", Material.CAULDRON, GetText.tr("&eKitchen"), "", GetText.tr("&a&oYou can make a bunch of different yummies here!"), GetText.tr("&a&oThe result goes in the Furnace output slot")), new ItemStack[] { new CustomItemStack(Material.BRICK_STAIRS, GetText.tr("&oBrick Stairs (upside down)")), new CustomItemStack(Material.BRICK_STAIRS, GetText.tr("&oBrick Stairs (upside down)")), new ItemStack(Material.BRICKS), new ItemStack(Material.STONE_PRESSURE_PLATE), new ItemStack(Material.IRON_TRAPDOOR), new ItemStack(Material.BOOKSHELF), new ItemStack(Material.FURNACE), new ItemStack(Material.DISPENSER), new ItemStack(Material.CRAFTING_TABLE) }, new ItemStack[0], BlockFace.SELF);
 
         this.plugin = plugin;
     }

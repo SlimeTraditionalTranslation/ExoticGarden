@@ -1,28 +1,41 @@
-# ExoticGarden 异域花园
+# 異國情調花園
 
-ExoticGarden 是一个 [Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4) 附属插件，向 Slimefun 添加了各种植物、水果、蔬菜与食物。
+異國情調花園是 [Slimefun](https://github.com/TheBusyBiscuit/Slimefun4) 的大型附加，新增了各式各樣的植物、水果、蔬菜和食物到遊戲中。
+
+異國情調花園簡中核心：https://github.com/SlimefunGuguProject/ExoticGarden
+
+> 此為**非官方**的黏液科技繁體翻譯版
+>
+> 請勿在該作者的問題追蹤中回報有關此的任何錯誤！
+>
+> 如果使用本翻譯遇到錯誤、翻譯用法奇怪或其他等等的問題
+>
+> 請加入非官方的 [Slimefun 繁體中文版][TraditionalChinese-DiscordLink] Discord 伺服器一起討論！
 
 ## Wiki
 
-异域花园非官方中文 Wiki: https://slimefun-addons-wiki.guizhanss.cn/exotic-garden/
+異國情調花園非官方簡體中文 Wiki：https://slimefun-addons-wiki.guizhanss.cn/exotic-garden/
 
-## 下载 ExoticGarden
-你可以在这里下载 ExoticGarden: [点此下载](https://builds.guizhanss.net/ybw0014/ExoticGarden-CN/master)
+## 下載異國情調花園
 
+| 繁體中文版 | 官方英文版 |
+| -------- | -------- |
+| [![Build Status][TraditionalChinese-Badge]][TraditionalChinese-Link] | [![Build Status][Official-Badge]][Official-Link] |
+
+[TraditionalChinese-Badge]: https://xmikux.github.io/builds/SlimeTraditionalTranslation/ExoticGarden/master/badge.svg
+[TraditionalChinese-Link]: https://xmikux.github.io/builds/SlimeTraditionalTranslation/ExoticGarden/master/
+[TraditionalChinese-DiscordLink]: https://discord.gg/GF4CwjFXT9
+[Official-Badge]: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/badge.svg
+[Official-Link]: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/ExoticGarden/master/
+
+## Discord
+你可以在 Discord 伺服器上找到官方的 Slimefun 社群！
+點擊下方的徽章來加入伺服器，並一起討論、建議、提問和其他有關於黏液科技的事物。
 <p align="center">
-  <a href="https://github.com/ybw0014/ExoticGarden-CN/actions/workflows/maven.yml">
-    <img src="https://github.com/ybw0014/ExoticGarden-CN/actions/workflows/maven.yml/badge.svg" alt="Java CI"/>
-  </a>
-
-  <a href="https://builds.guizhanss.net/ybw0014/ExoticGarden-CN/master">
-    <img src="https://builds.guizhanss.net/f/ybw0014/ExoticGarden-CN/master/badge.svg" alt="Build status"/>
+  <a href="https://discord.gg/fsD4Bkh">
+    <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
   </a>
 </p>
 
-## 贡献
-
-你可以通过向ExoticGarden的仓库提交pull request来做出贡献，我们允许并鼓励这样做。
-
-这些 pull requests 可以是修复、改动或新特性，这取决于你。
-
-查看我们的[开源许可证](/LICENSE)来了解更多。
+## Open Source
+This Project is open-source and licensed under the [GNU General Public License v3.0](https://github.com/TheBusyBiscuit/ExoticGarden/blob/master/LICENSE)

@@ -1,7 +1,7 @@
 name: ExoticGarden
 version: ${project.version}
 author: TheBusyBiscuit
-description: A Slimefun Addon that adds new Plants and dishes to the game
+description: 黏液科技附加「異國情調花園」繁體中文版。
 website: https://github.com/TheBusyBiscuit/ExoticGarden
 
 api-version: '1.14'
@@ -9,4 +9,4 @@ main: io.github.thebusybiscuit.exoticgarden.ExoticGarden
 
 depend:
 - Slimefun
-- GuizhanLibPlugin
+#- GuizhanLibPlugin
